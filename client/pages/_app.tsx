@@ -1,5 +1,4 @@
 import Layout from "@/components/Layout";
-import "@/styles/globals.css";
 import GlobalStyled from "@/styles/GlobalStyled";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
@@ -23,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <GlobalStyled />
       <Layout>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </Layout>
     </QueryClientProvider>
   );
