@@ -1,11 +1,12 @@
 import Input from "@/components/Input";
-import { Form } from "@/styles/FormStyle";
+import { Button, Form } from "@/styles/FormStyle";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
 interface LoginForm {
   accountId: string;
   password: string;
+  asd: string;
 }
 
 const LoginPage = () => {
@@ -21,7 +22,7 @@ const LoginPage = () => {
     <Form onSubmit={handleSubmit(onValid)}>
       <Input name="accountId" label="아이디" register={register("accountId")} />
       <Input name="password" label="비밀번호" register={register("password")} />
-      <button>로그인</button>
+      <Button>로그인</Button>
       <Link href="/auth/register">회원가입</Link>
     </Form>
   );

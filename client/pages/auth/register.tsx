@@ -1,5 +1,5 @@
 import Input from "@/components/Input";
-import { Form } from "@/styles/FormStyle";
+import { Button, Form } from "@/styles/FormStyle";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -25,7 +25,7 @@ const RegisterPage = () => {
       <Input name="accountId" label="아이디" register={register("accountId")} />
       <Input name="password" label="비밀번호" register={register("password")} />
       <Input name="confirmPassword" label="비밀번호 확인" register={register("confirmPassword")} />
-      <button>회원가입</button>
+      <Button>회원가입</Button>
       <Link href="/auth/login">로그인</Link>
     </Form>
   );
