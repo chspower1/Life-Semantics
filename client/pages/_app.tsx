@@ -1,6 +1,30 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import Layout from "@/components/Layout";
+import "@/styles/globals.css";
+import GlobalStyled from "@/styles/GlobalStyled";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        staleTime: 1000 * 60 * 5,
+        cacheTime: 1000 * 60 * 5,
+      },
+      mutations: {
+        retry: false,
+        cacheTime: 1000 * 60 * 5,
+        onError(error: any) {},
+      },
+    },
+  });
+  return (
+    <QueryClientProvider client={queryClient}>
+      <GlobalStyled />
+      <Layout>
+        <Component {...pageProps} />;
+      </Layout>
+    </QueryClientProvider>
+  );
 }
