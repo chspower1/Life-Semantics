@@ -7,7 +7,6 @@ const axiosBase = axios.create({
   },
 });
 const basicApi = () => {
-  axios.defaults.baseURL = "http://localhost:8080";
   axiosBase.interceptors.response.use(
     (response) => response,
     (error) => {
