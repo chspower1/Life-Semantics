@@ -1,0 +1,32 @@
+export interface Hospital {
+  XPos: number;
+  YPos: number;
+  addr: string;
+  clCd: string;
+  clCdNm: string;
+  cmdcGdrCnt: number;
+  cmdcIntnCnt: number;
+  cmdcResdntCnt: number;
+  cmdcSdrCnt: number;
+  detyGdrCnt: number;
+  detyIntnCnt: number;
+  detyResdntCnt: number;
+  detySdrCnt: number;
+  drTotCnt: number;
+  emdongNm: string;
+  estbDd: number;
+  hospUrl: string;
+  mdeptGdrCnt: number;
+  mdeptIntnCnt: number;
+  mdeptResdntCnt: number;
+  mdeptSdrCnt: number;
+  pnursCnt: number;
+  postNo: number;
+  sgguCd: number;
+  sgguCdNm: string;
+  sidoCd: number;
+  sidoCdNm: string;
+  telno: string;
+  yadmNm: string;
+  ykiho: string;
+}
