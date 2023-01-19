@@ -1,5 +1,7 @@
 import Input from "@/components/Input";
 import { Button, Form } from "@/styles/FormStyle";
+import customApi from "@/utils/customApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -10,14 +12,20 @@ interface LoginForm {
 }
 
 const LoginPage = () => {
+  const { postApi: loginApi } = customApi("/auth/login");
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<LoginForm>();
-  const onValid = (loginForm: LoginForm) => {
-    console.log(loginForm);
+  const onValid = async ({ accountId, password }: LoginForm) => {
+    const token = await loginApi({ accountId, password });
+    console.log(token);
+    localStorage.setItem("token", token);
+
+    console.log({ accountId, password });
   };
+
   return (
     <Form onSubmit={handleSubmit(onValid)}>
       <Input name="accountId" label="아이디" register={register("accountId")} />
