@@ -1,20 +1,54 @@
+import { selectedHospitalState } from "@/atom";
 import Input from "@/components/Input";
 import { ContentBox, ContentTitle, ContentWrapper } from "@/styles/Hospital";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRecoilValue } from "recoil";
 
 interface ReservationForm {
   phone: string;
   symptom: string;
   date: Date;
-  image: FormData;
+  image: FileList;
 }
 const Details = () => {
-  const { register } = useForm<ReservationForm>();
+  const selectedHospital = useRecoilValue(selectedHospitalState);
+  const [imagePreview, setImagePreview] = useState("");
+
+  const { register, handleSubmit, watch } = useForm<ReservationForm>();
+
+  const onValid = (reservationForm: ReservationForm) => {
+    console.log(reservationForm);
+  };
+
+  useEffect(() => {
+    const image = watch("image");
+    if (image && image.length > 0) {
+      setImagePreview(URL.createObjectURL(image[0]));
+    }
+  }, [watch("image")]);
   return (
     <ContentWrapper>
       <ContentTitle>상세정보</ContentTitle>
       <ContentBox>
         <div>병원정보</div>
+        <div>
+          <h5>병원명</h5>
+          <p>{selectedHospital?.yadmNm}</p>
+        </div>
+        <div>
+          <h5>주소</h5>
+          <p>{selectedHospital?.addr}</p>
+        </div>
+        <div>
+          <h5>전화번호</h5>
+          <p>{selectedHospital?.telno}</p>
+        </div>
+        <div>
+          <h5>진료과</h5>
+          <p>{selectedHospital?.yadmNm}</p>
+        </div>
         <form>
           <h1>진료신청</h1>
           <span>이름</span>
@@ -22,6 +56,8 @@ const Details = () => {
           <Input label="증상" name="symptom" register={register("symptom")} />
           <Input label="예약일시" name="date" type="date" register={register("date")} />
           <Input label="증상이미지" name="image" type="file" register={register("image")} />
+          <Image src={imagePreview} width={100} height={100} alt="이미지 미리보기" />
+          <button>예약하기</button>
         </form>
       </ContentBox>
     </ContentWrapper>

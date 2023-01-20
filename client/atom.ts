@@ -1,6 +1,7 @@
 import { atom } from "recoil";
+import { Hospital } from "./types/hospital";
 
-const selectedHospitalState = atom({
+export const selectedHospitalState = atom<Hospital | null>({
   key: "selectedHospital",
-  default: "",
+  default: null,
 });
