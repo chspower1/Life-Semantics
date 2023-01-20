@@ -9,7 +9,7 @@ const HospitalPage = () => {
   const { getApi: getHospitals } = customApi(
     `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=${process.env.NEXT_PUBLIC_API_KEY}`
   );
-  const { data } = useQuery(["123"], getHospitals, {
+  const { data } = useQuery(["hopitalList"], getHospitals, {
     onSuccess(data) {
       console.log(data);
       console.log(data.response.body.items.item);

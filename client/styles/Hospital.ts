@@ -21,5 +21,9 @@ export const ContentBox = styled(FlexBox)`
 export const Item = styled(FlexBox)`
   width: 90%;
   height: 100px;
-  background-color: white; ;
+  background-color: white;
+  transition: box-shadow 0.3s ease;
+  &.active {
+    box-shadow: 0px 0px 0px 3px black;
+  }
 `;
