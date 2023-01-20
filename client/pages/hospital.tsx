@@ -6,18 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 
 const HospitalPage = () => {
-  const { getApi: getHospitals } = customApi(
-    `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=${process.env.NEXT_PUBLIC_API_KEY}`
-  );
-  const { data } = useQuery(["hopitalList"], getHospitals, {
-    onSuccess(data) {
-      console.log(data);
-      console.log(data.response.body.items.item);
-    },
-  });
   return (
     <HospitalWrapper>
-      <Search hospitals={data?.response.body.items.item} />
+      <Search />
       <Reservation />
       <Details />
     </HospitalWrapper>

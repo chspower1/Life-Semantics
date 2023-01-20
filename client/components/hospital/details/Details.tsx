@@ -1,10 +1,12 @@
 import { selectedHospitalState } from "@/atom";
 import Input from "@/components/Input";
+import { FlexBox } from "@/styles/Common";
 import { ContentBox, ContentTitle, ContentWrapper } from "@/styles/Hospital";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
 
 interface ReservationForm {
   phone: string;
@@ -33,22 +35,22 @@ const Details = () => {
       <ContentTitle>상세정보</ContentTitle>
       <ContentBox>
         <div>병원정보</div>
-        <div>
-          <h5>병원명</h5>
-          <p>{selectedHospital?.yadmNm}</p>
-        </div>
-        <div>
-          <h5>주소</h5>
-          <p>{selectedHospital?.addr}</p>
-        </div>
-        <div>
-          <h5>전화번호</h5>
-          <p>{selectedHospital?.telno}</p>
-        </div>
-        <div>
-          <h5>진료과</h5>
-          <p>{selectedHospital?.yadmNm}</p>
-        </div>
+        <DetailItem>
+          <Title>병원명</Title>
+          <Description>{selectedHospital?.yadmNm}</Description>
+        </DetailItem>
+        <DetailItem>
+          <Title>주소</Title>
+          <Description>{selectedHospital?.addr}</Description>
+        </DetailItem>
+        <DetailItem>
+          <Title>전화번호</Title>
+          <Description>{selectedHospital?.telno}</Description>
+        </DetailItem>
+        <DetailItem>
+          <Title>진료과</Title>
+          <Description>{selectedHospital?.yadmNm}</Description>
+        </DetailItem>
         <form>
           <h1>진료신청</h1>
           <span>이름</span>
@@ -64,3 +66,15 @@ const Details = () => {
   );
 };
 export default Details;
+
+const DetailItem = styled(FlexBox)`
+  width: 90%;
+  justify-content: space-between;
+`;
+const Title = styled.h3`
+  font-size: 14px;
+  font-weight: 600;
+`;
+const Description = styled.p`
+  font-size: 16px;
+`;
