@@ -3,6 +3,7 @@ import GlobalStyled from "@/styles/GlobalStyled";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </RecoilRoot>
   );
