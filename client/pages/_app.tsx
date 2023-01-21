@@ -20,14 +20,14 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   });
   return (
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
         <GlobalStyled />
         <Layout>
           <Component {...pageProps} />
         </Layout>
         <ReactQueryDevtools />
-      </QueryClientProvider>
-    </RecoilRoot>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }

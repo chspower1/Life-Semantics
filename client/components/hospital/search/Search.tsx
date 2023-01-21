@@ -5,7 +5,7 @@ import { ContentBox, ContentTitle, ContentWrapper, Item } from "@/styles/Hospita
 import { Hospital } from "@/types/hospital";
 import customApi from "@/utils/customApi";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import HospitalList from "../HospitalList";
@@ -18,21 +18,25 @@ interface SearchForm {
 const Search = () => {
   const [hospitals, setHospitals] = useState<Hospital[] | null>(null);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const { getApi: getHospitals } = customApi(
-    `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=${process.env.NEXT_PUBLIC_API_KEY}&yadmNm=${searchKeyword}`
+    `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=${process.env.NEXT_PUBLIC_API_KEY}&yadmNm=${searchKeyword}&pageNo=${currentPage}`
   );
-  const { refetch } = useQuery(["hopitalList", searchKeyword], getHospitals, {
-    onSuccess(data) {
-      console.log(data);
-      setHospitals(data.response.body.items.item);
-    },
-  });
+  const { data } = useQuery(["hopitalList", searchKeyword, currentPage], getHospitals);
   const { register, handleSubmit } = useForm<SearchForm>();
   const [selectedHospital, setSelectedHospital] = useRecoilState(selectedHospitalState);
   const onValid = ({ keyword }: { keyword: string }) => {
     setSearchKeyword(keyword);
-    refetch();
   };
+  const handleClickPageMoveButton = (mode: string) => {
+    if (currentPage === 1 && mode === "preview") return;
+    else {
+      mode === "preview" ? setCurrentPage(currentPage - 1) : setCurrentPage(currentPage + 1);
+    }
+  };
+  useEffect(() => {
+    setHospitals(data?.response.body.items.item);
+  }, [data]);
   return (
     <ContentWrapper>
       <ContentTitle>병원리스트</ContentTitle>
@@ -51,6 +55,13 @@ const Search = () => {
           </Item>
         ))}
       </ContentBox>
+      <button
+        disabled={currentPage === 1 ? true : false}
+        onClick={() => handleClickPageMoveButton("preview")}
+      >
+        이전
+      </button>
+      <button onClick={() => handleClickPageMoveButton("next")}>다음</button>
     </ContentWrapper>
   );
 };

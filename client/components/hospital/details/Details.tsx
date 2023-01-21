@@ -34,24 +34,26 @@ const Details = () => {
     <ContentWrapper>
       <ContentTitle>상세정보</ContentTitle>
       <ContentBox>
-        <div>병원정보</div>
-        <DetailItem>
-          <Title>병원명</Title>
-          <Description>{selectedHospital?.yadmNm}</Description>
-        </DetailItem>
-        <DetailItem>
-          <Title>주소</Title>
-          <Description>{selectedHospital?.addr}</Description>
-        </DetailItem>
-        <DetailItem>
-          <Title>전화번호</Title>
-          <Description>{selectedHospital?.telno}</Description>
-        </DetailItem>
-        <DetailItem>
-          <Title>진료과</Title>
-          <Description>{selectedHospital?.yadmNm}</Description>
-        </DetailItem>
-        <form>
+        <HospitalInfo>
+          <div>병원정보</div>
+          <DetailItem>
+            <Title>병원명</Title>
+            <Description>{selectedHospital?.yadmNm}</Description>
+          </DetailItem>
+          <DetailItem>
+            <Title>주소</Title>
+            <Description>{selectedHospital?.addr}</Description>
+          </DetailItem>
+          <DetailItem>
+            <Title>전화번호</Title>
+            <Description>{selectedHospital?.telno}</Description>
+          </DetailItem>
+          <DetailItem>
+            <Title>진료과</Title>
+            <Description>{selectedHospital?.yadmNm}</Description>
+          </DetailItem>
+        </HospitalInfo>
+        <Apply as="form">
           <h1>진료신청</h1>
           <span>이름</span>
           <Input label="전화번호" name="phone" register={register("phone")} />
@@ -60,13 +62,19 @@ const Details = () => {
           <Input label="증상이미지" name="image" type="file" register={register("image")} />
           <Image src={imagePreview} width={100} height={100} alt="이미지 미리보기" />
           <button>예약하기</button>
-        </form>
+        </Apply>
       </ContentBox>
     </ContentWrapper>
   );
 };
 export default Details;
-
+const HospitalInfo = styled(FlexBox)`
+  flex-direction: column;
+  background-color: white;
+  gap: 10px;
+  width: 90%;
+`;
+const Apply = styled(HospitalInfo)``;
 const DetailItem = styled(FlexBox)`
   width: 90%;
   justify-content: space-between;
