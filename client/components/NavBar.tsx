@@ -30,5 +30,6 @@ const NavBarWrapper = styled.nav`
   background-color: white;
 `;
 const Menu = styled(FlexBox)`
-  gap: 10px;
+  gap: 30px;
+  margin-right: 50px;
 `;

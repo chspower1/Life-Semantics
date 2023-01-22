@@ -37,6 +37,11 @@ html{
     }
     a{
         text-decoration: none;
+        color: #2d3436;
+        transition:color 0.3s ease;
+        &:hover{
+            color:#d63031;
+        }
     }
     input[type=password] { 
         font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif ;
