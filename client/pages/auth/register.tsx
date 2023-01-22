@@ -1,6 +1,6 @@
 import Input from "@/components/Input";
 import { Col as Form, Wrapper } from "@/styles/Common";
-import { Button, Subtitle, Title } from "@/styles/FormStyle";
+import { SubmitButton, Subtitle, Title } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { watch } from "fs";
@@ -79,9 +79,9 @@ const RegisterPage = () => {
           })}
           errorMessage={errors.confirmPassword?.message || null}
         />
-        <Button>회원가입</Button>
+        <SubmitButton>회원가입</SubmitButton>
       </Form>
-      <Link href="/auth/register">
+      <Link href="/auth/login">
         <Subtitle>라이프시멘틱스 회원이신가요?</Subtitle>
       </Link>
     </Wrapper>

@@ -1,6 +1,6 @@
 import Input from "@/components/Input";
 import { Col as Form, Wrapper } from "@/styles/Common";
-import { Button, ErrorMessage, InputBox, Subtitle, Title } from "@/styles/FormStyle";
+import { ErrorMessage, InputBox, SubmitButton, Subtitle, Title } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -51,7 +51,7 @@ const LoginPage = () => {
           errorMessage={errors.password?.message || null}
         />
 
-        <Button>로그인</Button>
+        <SubmitButton>로그인</SubmitButton>
       </Form>
       <Link href="/auth/register">
         <Subtitle>아직 회원이 아니신가요?</Subtitle>

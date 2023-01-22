@@ -11,6 +11,7 @@ ${reset}
         display: none;
     }
     *{
+    
         font-family: sebang;
     }
 html{
@@ -21,7 +22,9 @@ html{
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-  
+  body{
+    box-sizing: border-box;
+  }
     button {
         background: none;
         padding: 0;

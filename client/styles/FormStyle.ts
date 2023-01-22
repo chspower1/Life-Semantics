@@ -5,35 +5,41 @@ export const Title = styled.h1`
   font-size: 22px;
   margin-bottom: 74px;
 `;
-export const InputBox = styled(Col)`
+export const InputBox = styled(Col)<{ isReservation?: boolean }>`
   position: relative;
   align-items: flex-start;
-  width: 500px;
-  height: 80px;
-  margin-bottom: 30px;
+  width: ${(props) => (props.isReservation ? "90%" : "500px")};
+  height: ${(props) => (props.isReservation ? "60px" : "80px")};
+  margin-bottom: ${(props) => (props.isReservation ? "0px" : "30px")};
 `;
 export const Label = styled.label`
   color: #2d3436;
   font-size: 16px;
   margin-bottom: 14px;
 `;
-export const InputStyle = styled.input`
-  width: 500px;
-  height: 50px;
+export const InputStyle = styled.input<{ isReservation?: boolean }>`
+  width: 100%;
+  height: ${(props) => (props.isReservation ? "30px" : "50px")};
   border: none;
+  padding: 0px;
 `;
-export const Button = styled.button`
+export const SubmitButton = styled.button`
   /* margin-top: 46px; */
   width: 150px;
   height: 50px;
   font-size: 16px;
   background-color: white;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: #dd4854;
+    color: white;
+  }
 `;
 
 export const ErrorMessage = styled.span`
   position: absolute;
   font-size: 12px;
-  right: -5px;
+  right: 0px;
   bottom: -16px;
   color: #d45d67;
 `;
