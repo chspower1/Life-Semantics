@@ -3,9 +3,11 @@ import Reservation from "@/components/hospital/reservation/Reservation";
 import Search from "@/components/hospital/search/Search";
 import customApi from "@/utils/customApi";
 import { useQuery } from "@tanstack/react-query";
+import { NextPage } from "next";
+import { useState } from "react";
 import styled from "styled-components";
 
-const HospitalPage = () => {
+const HospitalPage: NextPage = () => {
   return (
     <HospitalWrapper>
       <Search />

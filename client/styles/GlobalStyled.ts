@@ -10,15 +10,18 @@ ${reset}
 ::-webkit-scrollbar {
         display: none;
     }
+    *{
+        font-family: sebang;
+    }
 html{
         font-size: 16px;
         -webkit-text-size-adjust: none;
         font-family: sebang;
-        font-weight:400;
         font-display: fallback;
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+  
     button {
         background: none;
         padding: 0;
