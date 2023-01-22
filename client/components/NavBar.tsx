@@ -6,7 +6,9 @@ import styled from "styled-components";
 const NavBar = () => {
   return (
     <NavBarWrapper>
-      <Image src="/logo.png" alt="logo" width={268} height={38} />
+      <Link href="/">
+        <Image src="/logo.png" alt="logo" width={268} height={38} />
+      </Link>
       <Menu>
         <Link href="/hospital">예약하기</Link>
         <Link href="/auth/login">로그인</Link>
@@ -18,13 +20,14 @@ const NavBar = () => {
 export default NavBar;
 
 const NavBarWrapper = styled.nav`
-  position: sticky;
+  position: fixed;
   top: 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100vw;
   height: 80px;
+  background-color: white;
 `;
 const Menu = styled(FlexBox)`
   gap: 10px;
