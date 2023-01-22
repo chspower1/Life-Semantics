@@ -1,6 +1,6 @@
 import Input from "@/components/Input";
-import { Row, Wrapper } from "@/styles/Common";
-import { Button, ErrorMessage, Form, InputBox } from "@/styles/FormStyle";
+import { Col as Form, Wrapper } from "@/styles/Common";
+import { Button, ErrorMessage, InputBox, Subtitle, Title } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -29,32 +29,33 @@ const LoginPage = () => {
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <InputBox>
-          <Input
-            name="accountId"
-            label="아이디"
-            register={register("accountId", {
-              required: "아이디를 입력해주세요.",
-            })}
-            errorMessage={errors.accountId?.message || null}
-          />
-          <ErrorMessage>{errors?.accountId?.message}</ErrorMessage>
-        </InputBox>
-        <InputBox>
-          <Input
-            name="password"
-            label="비밀번호"
-            register={register("password", {
-              required: "비밀번호를 입력해주세요.",
-            })}
-            errorMessage={errors.password?.message || null}
-          />
-          <ErrorMessage>{errors?.password?.message}</ErrorMessage>
-        </InputBox>
+      <Form as="form" onSubmit={handleSubmit(onValid)}>
+        <Title>로그인</Title>
+
+        <Input
+          name="accountId"
+          label="아이디"
+          register={register("accountId", {
+            required: "아이디를 입력해주세요.",
+          })}
+          errorMessage={errors.accountId?.message || null}
+        />
+
+        <Input
+          type="password"
+          name="password"
+          label="비밀번호"
+          register={register("password", {
+            required: "비밀번호를 입력해주세요.",
+          })}
+          errorMessage={errors.password?.message || null}
+        />
+
         <Button>로그인</Button>
-        <Link href="/auth/register">회원가입</Link>
       </Form>
+      <Link href="/auth/register">
+        <Subtitle>아직 회원이 아니신가요?</Subtitle>
+      </Link>
     </Wrapper>
   );
 };
