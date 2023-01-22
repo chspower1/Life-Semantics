@@ -23,11 +23,17 @@ const Search = () => {
     `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=${process.env.NEXT_PUBLIC_API_KEY}&yadmNm=${searchKeyword}&pageNo=${currentPage}`
   );
   const { data } = useQuery(["hopitalList", searchKeyword, currentPage], getHospitals);
-  const { register, handleSubmit } = useForm<SearchForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SearchForm>();
   const [selectedHospital, setSelectedHospital] = useRecoilState(selectedHospitalState);
+
   const onValid = ({ keyword }: { keyword: string }) => {
     setSearchKeyword(keyword);
   };
+
   const handleClickPageMoveButton = (mode: string) => {
     if (currentPage === 1 && mode === "preview") return;
     else {
@@ -42,7 +48,12 @@ const Search = () => {
       <ContentTitle>병원리스트</ContentTitle>
       <ContentBox>
         <form onSubmit={handleSubmit(onValid)}>
-          <Input name="keyword" label="검색" register={register("keyword")} />
+          <Input
+            name="keyword"
+            label="검색"
+            register={register("keyword")}
+            errorMessage={errors.keyword?.message || null}
+          />
           <Button>검색</Button>
         </form>
         {hospitals?.map((hospital) => (

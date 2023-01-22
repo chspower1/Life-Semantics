@@ -18,6 +18,8 @@ const NavBar = () => {
 export default NavBar;
 
 const NavBarWrapper = styled.nav`
+  position: sticky;
+  top: 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;

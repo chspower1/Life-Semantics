@@ -8,14 +8,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false,
         staleTime: 1000 * 60 * 5,
         cacheTime: 1000 * 60 * 5,
-      },
-      mutations: {
-        retry: false,
-        cacheTime: 1000 * 60 * 5,
-        onError(error: any) {},
       },
     },
   });
