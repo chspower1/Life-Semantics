@@ -1,13 +1,15 @@
 import { selectedHospitalState } from "@/atom";
 import Input from "@/components/Input";
+import { FlexBox } from "@/styles/Common";
 import { Button } from "@/styles/FormStyle";
-import { ContentBox, ContentTitle, ContentWrapper, Item } from "@/styles/Hospital";
+import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Hospital";
 import { Hospital } from "@/types/hospital";
 import customApi from "@/utils/customApi";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
+import styled from "styled-components";
 import HospitalList from "../HospitalList";
 interface SearchProps {
   hospitals: Hospital[] | undefined;
@@ -44,18 +46,18 @@ const Search = () => {
     setHospitals(data?.response.body.items.item);
   }, [data]);
   return (
-    <ContentWrapper>
+    <ContentContainer>
       <ContentTitle>병원리스트</ContentTitle>
       <ContentBox>
-        <form onSubmit={handleSubmit(onValid)}>
+        <SearchForm as="form" onSubmit={handleSubmit(onValid)}>
           <Input
             name="keyword"
-            label="검색"
+            label=""
             register={register("keyword")}
             errorMessage={errors.keyword?.message || null}
           />
-          <Button>검색</Button>
-        </form>
+          <SearchButton>검색</SearchButton>
+        </SearchForm>
         {hospitals?.map((hospital) => (
           <Item
             className={hospital.postNo === selectedHospital?.postNo ? "active" : "normal"}
@@ -73,7 +75,19 @@ const Search = () => {
         이전
       </button>
       <button onClick={() => handleClickPageMoveButton("next")}>다음</button>
-    </ContentWrapper>
+    </ContentContainer>
   );
 };
 export default Search;
+
+const SearchForm = styled(FlexBox)`
+  position: relative;
+`;
+const SearchButton = styled.button`
+  position: absolute;
+  right: 0px;
+  width: 60px;
+  height: 50px;
+  margin-bottom: 16px;
+  background-color: #a0a0a0;
+`;

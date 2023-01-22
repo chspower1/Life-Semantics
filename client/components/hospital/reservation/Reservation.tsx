@@ -1,14 +1,14 @@
-import { ContentBox, ContentTitle, ContentWrapper } from "@/styles/Hospital";
+import { ContentBox, ContentTitle, ContentContainer } from "@/styles/Hospital";
 import HospitalList from "../HospitalList";
 
 const Reservation = () => {
   return (
-    <ContentWrapper>
+    <ContentContainer>
       <ContentTitle>예약 리스트</ContentTitle>
       <ContentBox>
         <HospitalList />
       </ContentBox>
-    </ContentWrapper>
+    </ContentContainer>
   );
 };
 export default Reservation;
