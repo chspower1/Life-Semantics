@@ -7,12 +7,20 @@ interface InputProps {
   register: UseFormRegisterReturn;
   type?: string;
   errorMessage: string | null;
+  isReservation?: boolean;
 }
-const Input = ({ register, label, name, type = "text", errorMessage }: InputProps) => {
+const Input = ({
+  register,
+  label,
+  name,
+  type = "text",
+  errorMessage,
+  isReservation = false,
+}: InputProps) => {
   return (
-    <InputBox>
+    <InputBox isReservation={isReservation}>
       <Label htmlFor={name}>{label}</Label>
-      <InputStyle id={name} type={type} {...register} />
+      <InputStyle isReservation={isReservation} id={name} type={type} {...register} />
       <ErrorMessage>{errorMessage}</ErrorMessage>
     </InputBox>
   );
