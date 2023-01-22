@@ -38,6 +38,10 @@ html{
     a{
         text-decoration: none;
     }
+    input[type=password] { 
+        font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif ;
+  font-size: 18px;
+  }
 `;
 
 export default GlobalStyled;
