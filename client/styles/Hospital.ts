@@ -16,6 +16,7 @@ export const ContentTitle = styled(FlexBox)`
   font-weight: 600;
 `;
 export const ContentBox = styled(FlexBox)`
+  position: relative;
   flex-direction: column;
   width: 100%;
   height: 80%;
@@ -23,8 +24,9 @@ export const ContentBox = styled(FlexBox)`
 `;
 export const Item = styled(FlexBox)`
   width: 80%;
-  height: 100px;
+  height: 50px;
   background-color: white;
+  text-align: center;
   transition: box-shadow 0.3s ease;
   &.active {
     box-shadow: 0px 0px 0px 3px black;

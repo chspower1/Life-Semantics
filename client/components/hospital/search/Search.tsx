@@ -8,9 +8,10 @@ import customApi from "@/utils/customApi";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Skeleton from "react-loading-skeleton";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import HospitalList from "../HospitalList";
+import "react-loading-skeleton/dist/skeleton.css";
 interface SearchProps {
   hospitals: Hospital[] | undefined;
 }
@@ -19,12 +20,14 @@ interface SearchForm {
 }
 const Search = () => {
   const [hospitals, setHospitals] = useState<Hospital[] | null>(null);
+
   const [searchKeyword, setSearchKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
   const { getApi: getHospitals } = customApi(
     `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=${process.env.NEXT_PUBLIC_API_KEY}&yadmNm=${searchKeyword}&pageNo=${currentPage}`
   );
-  const { data } = useQuery(["hopitalList", searchKeyword, currentPage], getHospitals);
+  const { data, isLoading } = useQuery(["hopitalList", searchKeyword, currentPage], getHospitals);
   const {
     register,
     handleSubmit,
@@ -33,18 +36,25 @@ const Search = () => {
   const [selectedHospital, setSelectedHospital] = useRecoilState(selectedHospitalState);
 
   const onValid = ({ keyword }: { keyword: string }) => {
+    setCurrentPage(1);
     setSearchKeyword(keyword);
   };
 
   const handleClickPageMoveButton = (mode: string) => {
     if (currentPage === 1 && mode === "preview") return;
+    else if (currentPage === lastPage && mode === "next") return;
     else {
       mode === "preview" ? setCurrentPage(currentPage - 1) : setCurrentPage(currentPage + 1);
     }
   };
   useEffect(() => {
-    setHospitals(data?.response.body.items.item);
+    console.log(data);
+    if (data) {
+      setLastPage(Math.ceil(data?.response.body.totalCount / 10));
+      setHospitals(data?.response.body.items.item);
+    }
   }, [data]);
+  console.log(hospitals);
   return (
     <ContentContainer>
       <ContentTitle>병원리스트</ContentTitle>
@@ -58,23 +68,39 @@ const Search = () => {
           />
           <SearchButton>검색</SearchButton>
         </SearchForm>
-        {hospitals?.map((hospital) => (
-          <Item
-            className={hospital.postNo === selectedHospital?.postNo ? "active" : "normal"}
-            key={hospital.postNo}
-            onClick={() => setSelectedHospital(hospital)}
-          >
-            {hospital.yadmNm}
-          </Item>
-        ))}
+        {isLoading
+          ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => (
+              <Skeleton width="500px" height="50px" key={index} />
+            ))
+          : hospitals?.map((hospital) => (
+              <Item
+                className={hospital.postNo === selectedHospital?.postNo ? "active" : "normal"}
+                key={hospital.yadmNm + hospital.XPos + hospital.YPos}
+                onClick={() => setSelectedHospital(hospital)}
+              >
+                {hospital.yadmNm}
+              </Item>
+            ))}
+        <PreviusButton
+          disabled={currentPage === 1 ? true : false}
+          onClick={() => handleClickPageMoveButton("preview")}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+            <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+          </svg>
+        </PreviusButton>
+        <NextButton
+          disabled={currentPage === lastPage ? true : false}
+          onClick={() => handleClickPageMoveButton("next")}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+            <path d="M342.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L274.7 256 105.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+          </svg>
+        </NextButton>
       </ContentBox>
-      <button
-        disabled={currentPage === 1 ? true : false}
-        onClick={() => handleClickPageMoveButton("preview")}
-      >
-        이전
-      </button>
-      <button onClick={() => handleClickPageMoveButton("next")}>다음</button>
+      <PagePointer>
+        {currentPage}/{lastPage}
+      </PagePointer>
     </ContentContainer>
   );
 };
@@ -90,4 +116,21 @@ const SearchButton = styled.button`
   height: 50px;
   margin-bottom: 16px;
   background-color: #a0a0a0;
+`;
+const NextButton = styled.button`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  bottom: 40%;
+`;
+const PreviusButton = styled(NextButton)`
+  position: absolute;
+  left: 0px;
+  bottom: 40%;
+`;
+const PagePointer = styled.div`
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
 `;
