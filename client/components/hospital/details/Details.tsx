@@ -110,7 +110,7 @@ const Details = () => {
             errorMessage={errors.date?.message || null}
           />
 
-          <InputBox isReservation style={{ height: "200px" }}>
+          <InputBox isReservation style={{ height: "200px", position: "relative" }}>
             <Label htmlFor="image">증상이미지</Label>
             <ImageInput
               id="iamge"
@@ -122,7 +122,9 @@ const Details = () => {
               }}
             />
             {imagePreview ? (
-              <Image src={imagePreview} width={100} height={100} alt="이미지 미리보기" />
+              <ImageBox onClick={uploadImage}>
+                <Image fill src={imagePreview} alt="이미지 미리보기" objectFit="scale-down" />
+              </ImageBox>
             ) : (
               <UploadImageButton onClick={uploadImage} type="button" />
             )}
@@ -174,4 +176,9 @@ const UploadImageButton = styled.button`
 const ImageInput = styled.input`
   position: absolute;
   right: -3000px;
+`;
+const ImageBox = styled.div`
+  position: relative;
+  margin: 0px auto;
+  padding: 75px;
 `;

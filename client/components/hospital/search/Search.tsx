@@ -1,7 +1,7 @@
 import { selectedHospitalState } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
-import { Button } from "@/styles/FormStyle";
+import { SubmitButton } from "@/styles/FormStyle";
 import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Hospital";
 import { Hospital } from "@/types/hospital";
 import customApi from "@/utils/customApi";
