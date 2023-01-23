@@ -31,6 +31,8 @@ const Details = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    setValue,
+    reset,
   } = useForm<ReservationForm>({
     defaultValues: {
       name: user?.name,
@@ -44,7 +46,6 @@ const Details = () => {
   const { mutate: deleteReservationMutate } = useMutation(["deleteReservation"], deleteApi);
 
   const onValid = ({ phone, symptom, date, imageUrl }: ReservationForm) => {
-    console.log(date);
     createReservationMutate({
       userId: user?.id,
       hospitalName: selectedHospital?.yadmNm,
@@ -52,11 +53,31 @@ const Details = () => {
       hospitalTel: selectedHospital?.telno,
       hospitalDepartment: "dd",
       phone,
-      date: date,
+      date,
       symptom,
       imageUrl: "ss",
     });
   };
+
+  const handleClickUpdate = () => {
+    const { hospitalName, hospitalAddress, hospitalDepartment, hospitalTel } = selectedReservation!;
+    updateReservationMutate({
+      id: selectedReservation?.id!,
+      userId: user?.id,
+      hospitalName,
+      hospitalAddress,
+      hospitalTel,
+      hospitalDepartment: "dd",
+      phone: watch("phone"),
+      date: "2023-02-02",
+      symptom: watch("symptom"),
+      imageUrl: "ss",
+    });
+  };
+  const handleClickDelete = () => {
+    deleteReservationMutate(selectedReservation?.id);
+  };
+
   const uploadImage = () => {
     imageRef.current?.click();
   };
@@ -67,7 +88,16 @@ const Details = () => {
       console.log(URL.createObjectURL(image[0]));
     }
   }, [watch("imageUrl")]);
-
+  useEffect(() => {
+    if (selectedReservation) {
+      setValue("symptom", selectedReservation.symptom);
+      setValue("phone", selectedReservation.phone);
+      // setValue("date", selectedReservation.date);
+      // setImagePreview(selectedReservation.imageUrl);
+    } else {
+      reset();
+    }
+  }, [selectedReservation]);
   return (
     <ContentContainer>
       <ContentTitle>상세정보</ContentTitle>
@@ -170,7 +200,18 @@ const Details = () => {
             )}
           </InputBox>
 
-          <SubmitButton>예약하기</SubmitButton>
+          {selectedReservation ? (
+            <FlexBox style={{ gap: "20px" }}>
+              <EditButton type="button" onClick={handleClickUpdate}>
+                수정
+              </EditButton>
+              <DeleteButton type="button" onClick={handleClickDelete}>
+                삭제
+              </DeleteButton>
+            </FlexBox>
+          ) : (
+            <SubmitButton>예약하기</SubmitButton>
+          )}
         </Apply>
       </ContentBox>
     </ContentContainer>
@@ -221,4 +262,13 @@ const ImageBox = styled.div`
   position: relative;
   margin: 0px auto;
   padding: 75px;
+`;
+const DeleteButton = styled(SubmitButton)`
+  width: 76px;
+`;
+const EditButton = styled(DeleteButton)`
+  background-color: #0984e3;
+  &:hover {
+    background-color: #0975c7;
+  }
 `;
