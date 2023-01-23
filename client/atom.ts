@@ -1,13 +1,16 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
 import { Hospital } from "./types/hospital";
 import { User } from "./types/user";
+const { persistAtom } = recoilPersist();
 
-export const userState = atom<User | null>({
+export const userAtom = atom<User | null>({
   key: "user",
   default: null,
+  effects_UNSTABLE: [persistAtom],
 });
 
-export const selectedHospitalState = atom<Hospital | null>({
+export const selectedHospitalAtom = atom<Hospital | null>({
   key: "selectedHospital",
   default: null,
 });
