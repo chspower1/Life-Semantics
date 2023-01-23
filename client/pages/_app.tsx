@@ -12,6 +12,11 @@ export default function App({ Component, pageProps }: AppProps) {
         staleTime: 1000 * 60 * 5,
         cacheTime: 1000 * 60 * 5,
       },
+      mutations: {
+        onSuccess() {
+          queryClient.invalidateQueries(["reservationList"]);
+        },
+      },
     },
   });
 
