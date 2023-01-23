@@ -9,7 +9,7 @@ import java.util.Map;
 public interface AuthService {
 
 
-    public String loginUser(Users.Request request);
+    public Map<String, Object> loginUser(Users.Request request);
     public Users.Response registerUser(Users.Request request);
 
     public boolean checkAccountId(String accountId);

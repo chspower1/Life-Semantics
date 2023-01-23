@@ -115,7 +115,8 @@ const SearchButton = styled.button`
   width: 60px;
   height: 50px;
   margin-bottom: 16px;
-  background-color: #a0a0a0;
+  color: white;
+  background-color: #d63031;
 `;
 const NextButton = styled.button`
   width: 30px;

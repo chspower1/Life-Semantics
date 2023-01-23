@@ -15,7 +15,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public String logIn(@RequestBody Users.Request user) {
+    public Map<String, Object> logIn(@RequestBody Users.Request user) {
         return authService.loginUser(user);
 
     }

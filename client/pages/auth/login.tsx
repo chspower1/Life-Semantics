@@ -12,15 +12,17 @@ interface LoginForm {
 }
 
 const LoginPage = () => {
-  const { postApi: loginApi } = customApi<LoginForm>("/auth/login");
-  const { mutateAsync } = useMutation(["login"], loginApi);
+  const { postApi: loginApi } = customApi<LoginForm>("http://localhost:8080/auth/login");
+  const { postApi: checkApi } = customApi("http://localhost:8080/auth/check");
+  const { mutateAsync: loginMutate } = useMutation(["login"], loginApi);
+  const { mutateAsync: checkMutate } = useMutation(["check"], loginApi);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<LoginForm>();
   const onValid = async ({ accountId, password }: LoginForm) => {
-    const token = await mutateAsync({ accountId, password });
+    const token = await loginMutate({ accountId, password });
     console.log(token);
     localStorage.setItem("token", token);
 

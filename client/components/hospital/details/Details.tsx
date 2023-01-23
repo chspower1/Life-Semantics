@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { InputBox, Label, SubmitButton } from "@/styles/FormStyle";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import customApi from "@/utils/customApi";
 
 interface ReservationForm {
   name: string;
@@ -33,8 +35,21 @@ const Details = () => {
   });
   const { ref, ...rest } = register("image");
 
-  const onValid = (reservationForm: ReservationForm) => {
-    console.log(reservationForm);
+  const { deleteApi, getApi, postApi, putApi } = customApi("http://localhost:8080/reservation");
+  // const { data: reservationList } = useQuery(["reservationList"], getApi);
+  const { mutate: createReservation } = useMutation(["createReservation"], postApi);
+  const { mutate: updateReservation } = useMutation(["createReservation"], putApi);
+  const { mutate: deleteReservation } = useMutation(["createReservation"], deleteApi);
+
+  const onValid = ({ name, phone, symptom, date, image }: ReservationForm) => {
+    // console.log(reservationForm);
+    createReservation({
+      hospitalName: selectedHospital?.yadmNm,
+      hospitalAddress: selectedHospital?.addr,
+      hospitalTel: selectedHospital?.telno,
+      hospitalDepartment: selectedHospital?.emdongNm,
+      ...reservationForm,
+    });
   };
   const uploadImage = () => {
     imageRef.current?.click();
@@ -46,7 +61,6 @@ const Details = () => {
       console.log(URL.createObjectURL(image[0]));
     }
   }, [watch("image")]);
-  console.log(watch("image"));
   return (
     <ContentContainer>
       <ContentTitle>상세정보</ContentTitle>
@@ -67,7 +81,7 @@ const Details = () => {
           </DetailItem>
           <DetailItem>
             <Title>진료과</Title>
-            <Description>{selectedHospital?.yadmNm}</Description>
+            <Description>{selectedHospital?.clCdNm}</Description>
           </DetailItem>
         </HospitalInfo>
         <Apply as="form" onSubmit={handleSubmit(onValid)}>

@@ -53,18 +53,12 @@ public class Users {
         private String accountId;
         private String name;
 
-        private List<Reservation.Response> reservations;
-
         public static Response toResponse(Users user) {
-            List<Reservation.Response> reservations = new ArrayList<Reservation.Response>();
-            user.getReservations().stream()
-                    .forEach(reservation -> reservations.add(Reservation.Response.toResponse(reservation)));
 
             return Response.builder()
                     .id(user.getId())
                     .accountId(user.getAccountId())
                     .name(user.getName())
-                    .reservations(reservations)
                     .build();
         }
     }

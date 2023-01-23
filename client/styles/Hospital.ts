@@ -27,8 +27,13 @@ export const Item = styled(FlexBox)`
   height: 50px;
   background-color: white;
   text-align: center;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 0px 0px 0px 3px #d63031;
+  }
   &.active {
-    box-shadow: 0px 0px 0px 3px black;
+    color: white;
+    background-color: #d63031;
+    box-shadow: 0px 0px 0px 3px #d63031;
   }
 `;

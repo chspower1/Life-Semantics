@@ -38,10 +38,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String loginUser(Users.Request request) {
+    public Map<String, Object> loginUser(Users.Request request) {
+    	Map<String, Object> map=new HashMap<String, Object>();
         Users user = userRepository.findByAccountIdAndPassword(request.getAccountId(), request.getPassword());
-        if (user!=null) return createToken(Users.Response.toResponse(user));
-        else return "fail token";
+        if (user!=null) {
+        	String token = createToken(Users.Response.toResponse(user));
+        	map.put("user", Users.Response.toResponse(user));
+        	map.put("token", token);
+        	return map;
+        }
+        else return null;
     }
 
     @Override
@@ -60,8 +66,8 @@ public class AuthServiceImpl implements AuthService {
         payloads.put("user", jsonObject.toString());
 
 //		long expirationTime = 1000 * 60 * 60 * 24 * 1l; // 하루
-//		long expirationTime = 1000 * 60 * 10l;
-		long expirationTime = 1000 * 30l;
+		long expirationTime = 1000 * 60 * 10l;
+//		long expirationTime = 1000 * 30l;
 
         Date expirationDate = new Date();
         expirationDate.setTime(expirationDate.getTime() + expirationTime);

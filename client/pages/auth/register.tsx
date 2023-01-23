@@ -11,7 +11,7 @@ interface RegisterForm {
   name: string;
   accountId: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 const RegisterPage = () => {
@@ -24,9 +24,9 @@ const RegisterPage = () => {
     watch,
   } = useForm<RegisterForm>();
 
-  const onValid = ({ name, accountId, password, confirmPassword }: RegisterForm) => {
+  const onValid = ({ name, accountId, password }: RegisterForm) => {
     console.log({ name, accountId, password });
-    mutate({ name, accountId, password, confirmPassword });
+    mutate({ name, accountId, password });
   };
   return (
     <Wrapper>

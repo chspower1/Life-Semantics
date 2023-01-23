@@ -28,11 +28,11 @@ export const SubmitButton = styled.button`
   width: 150px;
   height: 50px;
   font-size: 16px;
-  background-color: white;
+  color: white;
+  background-color: #d63031;
   transition: all 0.3s ease;
   &:hover {
-    background-color: #dd4854;
-    color: white;
+    background-color: #bd2828;
   }
 `;
 
