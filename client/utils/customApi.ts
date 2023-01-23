@@ -25,6 +25,14 @@ export default function customApi<T = any>(url: string) {
     const result = await basicApi().get(url);
     return result.data;
   };
+  const privateGetApi = async () => {
+    const result = await basicApi().get(url, {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    });
+    return result.data;
+  };
 
   const deleteApi = async (data: T) => {
     const result = await basicApi().delete(url, { data });
@@ -34,5 +42,5 @@ export default function customApi<T = any>(url: string) {
     const result = await basicApi().put(url, data);
     return result.data;
   };
-  return { postApi, getApi, deleteApi, putApi };
+  return { postApi, getApi, deleteApi, putApi, privateGetApi };
 }
