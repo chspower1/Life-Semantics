@@ -1,7 +1,7 @@
 import { selectedHospitalAtom, selectedReservationAtom, userAtom } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
-import { ContentBox, ContentTitle, ContentContainer } from "@/styles/Hospital";
+import { ContentBox, ContentTitle, ContentContainer } from "@/styles/Content";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import IconAddImage from "@/src/icon_addImage.png";
@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { InputBox, Label, SubmitButton } from "@/styles/FormStyle";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@/utils/customApi";
 import { getCurrentDate } from "@/utils/getCurrentDate";
 
@@ -17,7 +17,7 @@ interface ReservationForm {
   name: string;
   phone: string;
   symptom: string;
-  date: Date;
+  date: Date | string;
   imageUrl: FileList;
 }
 const Details = () => {
@@ -40,6 +40,7 @@ const Details = () => {
   });
   const { ref, ...rest } = register("imageUrl");
 
+  const queryClient = useQueryClient();
   const { deleteApi, postApi, putApi } = customApi("http://localhost:8080/reservation");
   const { mutate: createReservationMutate } = useMutation(["createReservation"], postApi);
   const { mutate: updateReservationMutate } = useMutation(["updateReservation"], putApi);
@@ -61,6 +62,7 @@ const Details = () => {
 
   const handleClickUpdate = () => {
     const { hospitalName, hospitalAddress, hospitalDepartment, hospitalTel } = selectedReservation!;
+    console.log(watch("date"));
     updateReservationMutate({
       id: selectedReservation?.id!,
       userId: user?.id,
@@ -69,7 +71,7 @@ const Details = () => {
       hospitalTel,
       hospitalDepartment: "dd",
       phone: watch("phone"),
-      date: "2023-02-02",
+      date: watch("date"),
       symptom: watch("symptom"),
       imageUrl: "ss",
     });
@@ -92,7 +94,7 @@ const Details = () => {
     if (selectedReservation) {
       setValue("symptom", selectedReservation.symptom);
       setValue("phone", selectedReservation.phone);
-      // setValue("date", selectedReservation.date);
+      setValue("date", selectedReservation.date);
       // setImagePreview(selectedReservation.imageUrl);
     } else {
       reset();
@@ -171,7 +173,7 @@ const Details = () => {
             register={register("date", {
               required: "날짜를 입력해주세요!",
             })}
-            min={getCurrentDate()}
+            min={getCurrentDate}
             errorMessage={errors.date?.message || null}
           />
 
