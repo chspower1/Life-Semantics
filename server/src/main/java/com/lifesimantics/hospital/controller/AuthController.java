@@ -21,10 +21,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public Users.Response register(@RequestBody Users.Request user){
-        if(user==null) return null;
+    public boolean register(@RequestBody Users.Request user){
+        if(user==null) return false;
 
         return authService.registerUser(user);
+    }
+    
+    @PostMapping("/check-accountId")
+    public boolean checkAccountId(@RequestBody String accountId){
+    	
+    return authService.checkAccountId(accountId);	
     }
 
     @GetMapping("/register")

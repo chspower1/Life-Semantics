@@ -10,7 +10,7 @@ public interface AuthService {
 
 
     public Map<String, Object> loginUser(Users.Request request);
-    public Users.Response registerUser(Users.Request request);
+    public boolean registerUser(Users.Request request);
 
     public boolean checkAccountId(String accountId);
 

@@ -22,11 +22,13 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
 
     @Override
-    public Users.Response registerUser(Users.Request request) {
-        userRepository.save(Users.Request.toCreate(request));
-        Users saved = userRepository.findByAccountId(request.getAccountId());
-
-        return Users.Response.toResponse(saved);
+    public boolean registerUser(Users.Request request) {
+    	Users foundUser = userRepository.findByAccountId(request.getAccountId());
+        if(foundUser!=null) {        	
+        	userRepository.save(Users.Request.toCreate(request));
+       
+        	return true;
+        }else return false;
     }
 
     @Override
