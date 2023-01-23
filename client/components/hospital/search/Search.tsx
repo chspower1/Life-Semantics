@@ -1,4 +1,4 @@
-import { selectedHospitalAtom } from "@/atom";
+import { selectedHospitalAtom, selectedReservationAtom } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
 import { SubmitButton } from "@/styles/FormStyle";
@@ -20,6 +20,8 @@ interface SearchForm {
 }
 const Search = () => {
   const [hospitals, setHospitals] = useState<Hospital[] | null>(null);
+  const [selectedHospital, setSelectedHospital] = useRecoilState(selectedHospitalAtom);
+  const [selectedReservation, setSelectedReservation] = useRecoilState(selectedReservationAtom);
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,7 +35,6 @@ const Search = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<SearchForm>();
-  const [selectedHospital, setSelectedHospital] = useRecoilState(selectedHospitalAtom);
 
   const onValid = ({ keyword }: { keyword: string }) => {
     setCurrentPage(1);
@@ -46,6 +47,11 @@ const Search = () => {
     else {
       mode === "preview" ? setCurrentPage(currentPage - 1) : setCurrentPage(currentPage + 1);
     }
+  };
+
+  const handleClickHospital = (hospital: Hospital) => {
+    setSelectedReservation(null);
+    setSelectedHospital(hospital);
   };
   useEffect(() => {
     console.log(data);
@@ -76,7 +82,7 @@ const Search = () => {
               <Item
                 className={hospital.postNo === selectedHospital?.postNo ? "active" : "normal"}
                 key={hospital.yadmNm + hospital.XPos + hospital.YPos}
-                onClick={() => setSelectedHospital(hospital)}
+                onClick={() => handleClickHospital(hospital)}
               >
                 {hospital.yadmNm}
               </Item>
