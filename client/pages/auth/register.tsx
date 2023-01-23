@@ -5,7 +5,10 @@ import customApi from "@/utils/customApi";
 import { useMutation } from "@tanstack/react-query";
 import { watch } from "fs";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import styled from "styled-components";
 
 interface RegisterForm {
   name: string;
@@ -15,19 +18,50 @@ interface RegisterForm {
 }
 
 const RegisterPage = () => {
-  const { postApi } = customApi<RegisterForm>("http://localhost:8080/auth/register");
-  const { mutate } = useMutation(["register"], postApi);
+  const router = useRouter();
+  const [isConfirmAccountId, setIsConfirmAccountId] = useState(false);
+  const { postApi: createUserApi } = customApi<RegisterForm>("http://localhost:8080/auth/register");
+  const { postApi: checkAccountIdApi } = customApi<String>(
+    "http://localhost:8080/auth/check-accountId"
+  );
+  const { mutate } = useMutation(["register"], createUserApi, {
+    onSuccess(data) {
+      if (data) {
+        alert("회원가입을 축하드립니다!");
+        router.push("/auth/login");
+      } else {
+        alert("회원가입에 실패했습니다.");
+      }
+    },
+  });
+  const { mutateAsync: checkAccountIdMutate } = useMutation(["checkAccountId"], checkAccountIdApi, {
+    onSuccess(data) {
+      if (data) {
+        setIsConfirmAccountId(true);
+        alert("사용가능한 아이디 입니다.");
+      } else alert("이미 가입된 아이디입니다!");
+    },
+  });
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm<RegisterForm>();
+  } = useForm<RegisterForm>({ mode: "onChange" });
 
   const onValid = ({ name, accountId, password }: RegisterForm) => {
     console.log({ name, accountId, password });
-    mutate({ name, accountId, password });
+    if (isConfirmAccountId) {
+      mutate({ name, accountId, password });
+    } else alert("아이디 중복확인을 해주세요!");
   };
+  const handleClickCheckAccountId = () => {
+    const accountId = watch("accountId");
+    if (accountId === "") {
+      alert("아이디를 입력해주세요!");
+    } else checkAccountIdMutate(watch("accountId"));
+  };
+
   return (
     <Wrapper>
       <Form as="form" onSubmit={handleSubmit(onValid)}>
@@ -44,18 +78,31 @@ const RegisterPage = () => {
           })}
           errorMessage={errors.name?.message || null}
         />
-        <Input
-          name="accountId"
-          label="아이디"
-          register={register("accountId", {
-            required: "아이디를 입력해주세요!",
-            pattern: {
-              value: /^[a-z]+[a-z0-9]{5,19}$/g,
-              message: "아이디는 6~19글자와 영문,숫자 조합으로 입력해주세요",
-            },
-          })}
-          errorMessage={errors.accountId?.message || null}
-        />
+        <div style={{ position: "relative" }}>
+          <Input
+            name="accountId"
+            label="아이디"
+            register={register("accountId", {
+              required: "아이디를 입력해주세요!",
+              pattern: {
+                value: /^[a-z]+[a-z0-9]{5,19}$/g,
+                message: "아이디는 6~19글자와 영문,숫자 조합으로 입력해주세요",
+              },
+              onChange() {
+                setIsConfirmAccountId(false);
+              },
+            })}
+            errorMessage={errors.accountId?.message || null}
+          />
+          <CheckAccountIdButton
+            disabled={watch("accountId") === null ? true : false}
+            isConfirmAccountId={isConfirmAccountId}
+            type="button"
+            onClick={handleClickCheckAccountId}
+          >
+            {isConfirmAccountId ? "확인완료" : "중복확인"}
+          </CheckAccountIdButton>
+        </div>
         <Input
           type="password"
           name="password"
@@ -88,3 +135,13 @@ const RegisterPage = () => {
   );
 };
 export default RegisterPage;
+
+const CheckAccountIdButton = styled(SubmitButton)<{ isConfirmAccountId: boolean }>`
+  position: absolute;
+  font-size: 12px;
+  width: 60px;
+  height: 30px;
+  top: 40px;
+  right: 10px;
+  background-color: ${(props) => (props.isConfirmAccountId ? "gray" : "#d63031")};
+`;
