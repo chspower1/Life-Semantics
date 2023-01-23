@@ -24,11 +24,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean registerUser(Users.Request request) {
     	Users foundUser = userRepository.findByAccountId(request.getAccountId());
-        if(foundUser!=null) {        	
+        if(foundUser==null) {        	
         	userRepository.save(Users.Request.toCreate(request));
        
         	return true;
-        }else return false;
+        }else return false; 
     }
 
     @Override
