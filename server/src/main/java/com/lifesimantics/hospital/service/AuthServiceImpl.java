@@ -67,8 +67,8 @@ public class AuthServiceImpl implements AuthService {
         JSONObject jsonObject = new JSONObject(response);
         payloads.put("user", jsonObject.toString());
 
-//		long expirationTime = 1000 * 60 * 60 * 24 * 1l; // 하루
-		long expirationTime = 1000 * 60 * 10l;
+		long expirationTime = 1000 * 60 * 60 * 24 * 1l; // 하루
+//		long expirationTime = 1000 * 60 * 10l;
 //		long expirationTime = 1000 * 30l;
 
         Date expirationDate = new Date();

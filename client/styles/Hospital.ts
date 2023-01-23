@@ -27,6 +27,7 @@ export const Item = styled(FlexBox)`
   height: 50px;
   background-color: white;
   text-align: center;
+  border-radius: 6px;
   transition: all 0.3s ease;
   &:hover {
     box-shadow: 0px 0px 0px 3px #d63031;

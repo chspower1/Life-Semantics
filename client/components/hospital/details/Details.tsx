@@ -1,4 +1,4 @@
-import { selectedHospitalAtom, userAtom } from "@/atom";
+import { selectedHospitalAtom, selectedReservationAtom, userAtom } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
 import { ContentBox, ContentTitle, ContentContainer } from "@/styles/Hospital";
@@ -23,6 +23,7 @@ interface ReservationForm {
 const Details = () => {
   const user = useRecoilValue(userAtom);
   const selectedHospital = useRecoilValue(selectedHospitalAtom);
+  const selectedReservation = useRecoilValue(selectedReservationAtom);
   const [imagePreview, setImagePreview] = useState("");
   const imageRef = useRef<HTMLInputElement | null>(null);
   const {
@@ -37,8 +38,7 @@ const Details = () => {
   });
   const { ref, ...rest } = register("imageUrl");
 
-  const { deleteApi, getApi, postApi, putApi } = customApi("http://localhost:8080/reservation");
-  // const { data: reservationList } = useQuery(["reservationList"], getApi);
+  const { deleteApi, postApi, putApi } = customApi("http://localhost:8080/reservation");
   const { mutate: createReservationMutate } = useMutation(["createReservation"], postApi);
   const { mutate: updateReservationMutate } = useMutation(["updateReservation"], putApi);
   const { mutate: deleteReservationMutate } = useMutation(["deleteReservation"], deleteApi);
@@ -67,9 +67,7 @@ const Details = () => {
       console.log(URL.createObjectURL(image[0]));
     }
   }, [watch("imageUrl")]);
-  console.log(
-    new Date().getFullYear() + "-" + new Date().getMonth() + 1 + "-" + new Date().getDate()
-  );
+
   return (
     <ContentContainer>
       <ContentTitle>상세정보</ContentTitle>
@@ -78,19 +76,31 @@ const Details = () => {
           <BoxTitle>병원정보</BoxTitle>
           <DetailItem>
             <Title>병원명</Title>
-            <Description>{selectedHospital?.yadmNm}</Description>
+            <Description>
+              {selectedHospital && selectedHospital?.yadmNm}
+              {selectedReservation && selectedReservation?.hospitalName}
+            </Description>
           </DetailItem>
           <DetailItem>
             <Title>주소</Title>
-            <Description>{selectedHospital?.addr}</Description>
+            <Description>
+              {selectedHospital && selectedHospital?.addr}
+              {selectedReservation && selectedReservation?.hospitalAddress}
+            </Description>
           </DetailItem>
           <DetailItem>
             <Title>전화번호</Title>
-            <Description>{selectedHospital?.telno}</Description>
+            <Description>
+              {selectedHospital && selectedHospital?.telno}
+              {selectedReservation && selectedReservation?.hospitalTel}
+            </Description>
           </DetailItem>
           <DetailItem>
             <Title>진료과</Title>
-            <Description>{selectedHospital?.clCdNm}</Description>
+            <Description>
+              {selectedHospital && selectedHospital?.clCdNm}
+              {selectedReservation && selectedReservation?.hospitalDepartment}
+            </Description>
           </DetailItem>
         </HospitalInfo>
         <Apply as="form" onSubmit={handleSubmit(onValid)}>
