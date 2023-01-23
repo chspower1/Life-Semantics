@@ -8,6 +8,7 @@ interface InputProps {
   type?: string;
   errorMessage: string | null;
   isReservation?: boolean;
+  [key: string]: any;
 }
 const Input = ({
   register,
@@ -16,11 +17,12 @@ const Input = ({
   type = "text",
   errorMessage,
   isReservation = false,
+  ...rest
 }: InputProps) => {
   return (
     <InputBox isReservation={isReservation}>
       <Label htmlFor={name}>{label}</Label>
-      <InputStyle isReservation={isReservation} id={name} type={type} {...register} />
+      <InputStyle isReservation={isReservation} id={name} type={type} {...register} {...rest} />
       <ErrorMessage>{errorMessage}</ErrorMessage>
     </InputBox>
   );

@@ -16,6 +16,8 @@ public class Reservation {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
+    private long userId;
+    
     private String hospitalName;
     
     private String hospitalAddress;
@@ -44,6 +46,7 @@ public class Reservation {
     @Getter @Setter @ToString
     public static class Request {
     	private long id;
+    	private long userId;
     	private String hospitalName; 
     	private String hospitalAddress;
     	private String hospitalTel;
@@ -52,7 +55,6 @@ public class Reservation {
         private String symptom;
 		private LocalDate date;
         private String imageUrl;
-        private long userId;
         public static Reservation toReserve(Request request, Users user) {
 
             return Reservation.builder()
@@ -64,6 +66,7 @@ public class Reservation {
                     .symptom(request.getSymptom())
                     .date(request.getDate())
                     .imageUrl(request.getImageUrl())
+                    .userId(request.getUserId())
                     .user(user)
                     .build();
         }
@@ -77,6 +80,7 @@ public class Reservation {
         			.phone(request.getPhone())
         			.symptom(request.getSymptom())
         			.date(request.getDate())
+        			.userId(request.getUserId())
         			.imageUrl(request.getImageUrl())
         			.user(user)
         			.build();
@@ -94,6 +98,7 @@ public class Reservation {
     	private String hospitalTel;
     	private String hospitalDepartment;
         private String phone;
+        private long userId;
         private String symptom;
         private LocalDate date;
         private String imageUrl;
@@ -107,6 +112,7 @@ public class Reservation {
                     .hospitalTel(reservation.getHospitalTel())
                     .hospitalDepartment(reservation.getHospitalDepartment())
                     .phone(reservation.getPhone())
+                    .userId(reservation.getUserId())
                     .symptom(reservation.getSymptom())
                     .date(reservation.getDate())
                     .imageUrl(reservation.getImageUrl())

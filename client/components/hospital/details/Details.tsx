@@ -1,4 +1,4 @@
-import { selectedHospitalState } from "@/atom";
+import { selectedHospitalAtom, userAtom } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
 import { ContentBox, ContentTitle, ContentContainer } from "@/styles/Hospital";
@@ -11,16 +11,18 @@ import styled from "styled-components";
 import { InputBox, Label, SubmitButton } from "@/styles/FormStyle";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import customApi from "@/utils/customApi";
+import { getCurrentDate } from "@/utils/getCurrentDate";
 
 interface ReservationForm {
   name: string;
   phone: string;
   symptom: string;
   date: Date;
-  image: FileList;
+  imageUrl: FileList;
 }
 const Details = () => {
-  const selectedHospital = useRecoilValue(selectedHospitalState);
+  const user = useRecoilValue(userAtom);
+  const selectedHospital = useRecoilValue(selectedHospitalAtom);
   const [imagePreview, setImagePreview] = useState("");
   const imageRef = useRef<HTMLInputElement | null>(null);
   const {
@@ -30,37 +32,44 @@ const Details = () => {
     formState: { errors },
   } = useForm<ReservationForm>({
     defaultValues: {
-      name: "ss",
+      name: user?.name,
     },
   });
-  const { ref, ...rest } = register("image");
+  const { ref, ...rest } = register("imageUrl");
 
   const { deleteApi, getApi, postApi, putApi } = customApi("http://localhost:8080/reservation");
   // const { data: reservationList } = useQuery(["reservationList"], getApi);
-  const { mutate: createReservation } = useMutation(["createReservation"], postApi);
-  const { mutate: updateReservation } = useMutation(["createReservation"], putApi);
-  const { mutate: deleteReservation } = useMutation(["createReservation"], deleteApi);
+  const { mutate: createReservationMutate } = useMutation(["createReservation"], postApi);
+  const { mutate: updateReservationMutate } = useMutation(["updateReservation"], putApi);
+  const { mutate: deleteReservationMutate } = useMutation(["deleteReservation"], deleteApi);
 
-  const onValid = ({ name, phone, symptom, date, image }: ReservationForm) => {
-    // console.log(reservationForm);
-    createReservation({
+  const onValid = ({ phone, symptom, date, imageUrl }: ReservationForm) => {
+    console.log(date);
+    createReservationMutate({
+      userId: user?.id,
       hospitalName: selectedHospital?.yadmNm,
       hospitalAddress: selectedHospital?.addr,
       hospitalTel: selectedHospital?.telno,
-      hospitalDepartment: selectedHospital?.emdongNm,
-      ...reservationForm,
+      hospitalDepartment: "dd",
+      phone,
+      date: date,
+      symptom,
+      imageUrl: "ss",
     });
   };
   const uploadImage = () => {
     imageRef.current?.click();
   };
   useEffect(() => {
-    const image = watch("image");
+    const image = watch("imageUrl");
     if (image && image.length > 0) {
       setImagePreview(URL.createObjectURL(image[0]));
       console.log(URL.createObjectURL(image[0]));
     }
-  }, [watch("image")]);
+  }, [watch("imageUrl")]);
+  console.log(
+    new Date().getFullYear() + "-" + new Date().getMonth() + 1 + "-" + new Date().getDate()
+  );
   return (
     <ContentContainer>
       <ContentTitle>상세정보</ContentTitle>
@@ -93,6 +102,7 @@ const Details = () => {
             register={register("name", {
               required: "입력해주세요",
             })}
+            disabled={true}
             errorMessage={errors.name?.message || null}
           />
           <Input
@@ -121,6 +131,7 @@ const Details = () => {
             register={register("date", {
               required: "날짜를 입력해주세요!",
             })}
+            min={getCurrentDate()}
             errorMessage={errors.date?.message || null}
           />
 
@@ -137,7 +148,12 @@ const Details = () => {
             />
             {imagePreview ? (
               <ImageBox onClick={uploadImage}>
-                <Image fill src={imagePreview} alt="이미지 미리보기" objectFit="scale-down" />
+                <Image
+                  style={{ objectFit: "scale-down" }}
+                  fill
+                  src={imagePreview}
+                  alt="이미지 미리보기"
+                />
               </ImageBox>
             ) : (
               <UploadImageButton onClick={uploadImage} type="button" />

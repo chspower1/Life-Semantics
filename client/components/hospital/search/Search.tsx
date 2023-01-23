@@ -1,4 +1,4 @@
-import { selectedHospitalState } from "@/atom";
+import { selectedHospitalAtom } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
 import { SubmitButton } from "@/styles/FormStyle";
@@ -33,7 +33,7 @@ const Search = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<SearchForm>();
-  const [selectedHospital, setSelectedHospital] = useRecoilState(selectedHospitalState);
+  const [selectedHospital, setSelectedHospital] = useRecoilState(selectedHospitalAtom);
 
   const onValid = ({ keyword }: { keyword: string }) => {
     setCurrentPage(1);

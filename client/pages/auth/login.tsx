@@ -1,3 +1,4 @@
+import { userAtom } from "@/atom";
 import Input from "@/components/Input";
 import { Col as Form, Wrapper } from "@/styles/Common";
 import { ErrorMessage, InputBox, SubmitButton, Subtitle, Title } from "@/styles/FormStyle";
@@ -7,7 +8,7 @@ import { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-
+import { useSetRecoilState } from "recoil";
 interface LoginForm {
   accountId: string;
   password: string;
@@ -21,6 +22,7 @@ interface ResponseLogin {
   token: string;
 }
 const LoginPage = () => {
+  const setUser = useSetRecoilState(userAtom);
   const router = useRouter();
   const { postApi: loginApi } = customApi<LoginForm>("http://localhost:8080/auth/login");
   const { mutate: loginMutate } = useMutation<ResponseLogin, AxiosError, LoginForm>(
@@ -29,6 +31,7 @@ const LoginPage = () => {
     {
       onSuccess(data) {
         if (data) {
+          setUser(data.user);
           localStorage.setItem("token", data.token);
           router.push("/hospital");
         } else alert("사용자 정보가 옳지 않습니다!");
