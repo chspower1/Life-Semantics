@@ -1,5 +1,4 @@
 import { Wrapper } from "@/styles/Common";
-// import Image from "next/image";
 export default function Home() {
   return (
     <Wrapper>

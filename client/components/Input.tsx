@@ -1,4 +1,3 @@
-import { Col } from "@/styles/Common";
 import { ErrorMessage, InputBox, InputStyle, Label } from "@/styles/FormStyle";
 import { UseFormRegisterReturn } from "react-hook-form";
 interface InputProps {

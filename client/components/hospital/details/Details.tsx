@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { InputBox, Label, SubmitButton } from "@/styles/FormStyle";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import customApi from "@/utils/customApi";
 import { getCurrentDate } from "@/utils/getCurrentDate";
 import { baseUrl } from "@/constant/baseUrl";
@@ -58,28 +58,27 @@ const Details = () => {
       hospitalName: selectedHospital?.yadmNm,
       hospitalAddress: selectedHospital?.addr,
       hospitalTel: selectedHospital?.telno,
-      hospitalDepartment: "dd",
+      hospitalDepartment: selectedHospital?.clCdNm,
       phone,
       date,
       symptom,
-      imageUrl: "ss",
+      imageUrl: "image",
     });
   };
 
   const handleClickUpdate = () => {
     const { hospitalName, hospitalAddress, hospitalDepartment, hospitalTel } = selectedReservation!;
-    console.log(watch("date"));
     updateReservationMutate({
       id: selectedReservation?.id!,
       userId: user?.id,
       hospitalName,
       hospitalAddress,
       hospitalTel,
-      hospitalDepartment: "dd",
+      hospitalDepartment,
       phone: watch("phone"),
       date: watch("date"),
       symptom: watch("symptom"),
-      imageUrl: "ss",
+      imageUrl: "image",
     });
   };
   const handleClickDelete = () => {
@@ -94,7 +93,6 @@ const Details = () => {
     const image = watch("imageUrl");
     if (image && image.length > 0) {
       setImagePreview(URL.createObjectURL(image[0]));
-      console.log(URL.createObjectURL(image[0]));
     }
   }, [watch("imageUrl")]);
   useEffect(() => {
@@ -102,12 +100,10 @@ const Details = () => {
       setValue("symptom", selectedReservation.symptom);
       setValue("phone", selectedReservation.phone);
       setValue("date", selectedReservation.date);
-      // setImagePreview(selectedReservation.imageUrl);
     } else {
       reset();
     }
   }, [selectedReservation]);
-  console.log(getCurrentDate());
   return (
     <ContentContainer>
       <ContentTitle>상세정보</ContentTitle>

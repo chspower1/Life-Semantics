@@ -4,10 +4,9 @@ import { Col as Form, Wrapper } from "@/styles/Common";
 import { SubmitButton, Subtitle, Title } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
 import { useMutation } from "@tanstack/react-query";
-import { watch } from "fs";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -49,7 +48,6 @@ const RegisterPage = () => {
   } = useForm<RegisterForm>({ mode: "onChange" });
 
   const onValid = ({ name, accountId, password }: RegisterForm) => {
-    console.log({ name, accountId, password });
     if (isConfirmAccountId) {
       mutate({ name, accountId, password });
     } else alert("아이디 중복확인을 해주세요!");

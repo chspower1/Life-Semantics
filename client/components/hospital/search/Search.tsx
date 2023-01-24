@@ -1,7 +1,6 @@
 import { selectedHospitalAtom, selectedReservationAtom } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
-import { SubmitButton } from "@/styles/FormStyle";
 import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Content";
 import { Hospital } from "@/types/hospital";
 import customApi from "@/utils/customApi";
@@ -12,9 +11,7 @@ import Skeleton from "react-loading-skeleton";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import "react-loading-skeleton/dist/skeleton.css";
-interface SearchProps {
-  hospitals: Hospital[] | undefined;
-}
+
 interface SearchForm {
   keyword: string;
 }
@@ -54,13 +51,11 @@ const Search = () => {
     setSelectedHospital(hospital);
   };
   useEffect(() => {
-    console.log(data);
     if (data) {
       setLastPage(Math.ceil(data?.response?.body?.totalCount / 10));
       setHospitals(data?.response?.body?.items.item);
     }
   }, [data]);
-  console.log(hospitals);
   return (
     <ContentContainer>
       <ContentTitle>병원리스트</ContentTitle>
