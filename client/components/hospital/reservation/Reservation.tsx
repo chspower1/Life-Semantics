@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import { useRecoilState, useSetRecoilState } from "recoil";
 const Reservation = () => {
-  const { privateGetApi } = customApi("http://localhost:8080/reservation");
+  const { privateGetApi } = customApi(`http://${window.location.hostname}:8080/reservation`);
   const { data: reservations, isLoading } = useQuery<Reservation[]>(
     ["reservationList"],
     privateGetApi

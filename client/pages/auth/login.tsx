@@ -24,7 +24,9 @@ interface ResponseLogin {
 const LoginPage = () => {
   const setUser = useSetRecoilState(userAtom);
   const router = useRouter();
-  const { postApi: loginApi } = customApi<LoginForm>("http://localhost:8080/auth/login");
+  const { postApi: loginApi } = customApi<LoginForm>(
+    `http://${window.location.hostname}:8080/auth/login`
+  );
   const { mutate: loginMutate } = useMutation<ResponseLogin, AxiosError, LoginForm>(
     ["login"],
     loginApi,

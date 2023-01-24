@@ -41,7 +41,9 @@ const Details = () => {
   const { ref, ...rest } = register("imageUrl");
 
   const queryClient = useQueryClient();
-  const { deleteApi, postApi, putApi } = customApi("http://localhost:8080/reservation");
+  const { deleteApi, postApi, putApi } = customApi(
+    `http://${window.location.hostname}:8080/reservation`
+  );
   const { mutate: createReservationMutate } = useMutation(["createReservation"], postApi);
   const { mutate: updateReservationMutate } = useMutation(["updateReservation"], putApi);
   const { mutate: deleteReservationMutate } = useMutation(["deleteReservation"], deleteApi);
