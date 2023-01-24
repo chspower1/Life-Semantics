@@ -56,7 +56,7 @@ const Search = () => {
   useEffect(() => {
     console.log(data);
     if (data) {
-      setLastPage(Math.ceil(data?.response.body.totalCount / 10));
+      setLastPage(Math.ceil(data?.response.body?.totalCount / 10));
       setHospitals(data?.response.body.items.item);
     }
   }, [data]);
