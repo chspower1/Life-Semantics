@@ -1,9 +1,9 @@
-import Link from "next/link";
-
+import { Wrapper } from "@/styles/Common";
+// import Image from "next/image";
 export default function Home() {
   return (
-    <Link href="/auth/login">
-      <button>라이프 시멘틱스 이용하기</button>
-    </Link>
+    <Wrapper>
+      <h1 style={{ fontSize: "48px" }}>라이프 시멘틱스에 오신것을 환영합니다.</h1>
+    </Wrapper>
   );
 }

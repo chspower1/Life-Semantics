@@ -1,7 +1,7 @@
 import { userAtom } from "@/atom";
 import Input from "@/components/Input";
 import { baseUrl } from "@/constant/baseUrl";
-import { Col as Form, Wrapper } from "@/styles/Common";
+import { Col, Col as Form, FlexBox, Wrapper } from "@/styles/Common";
 import { ErrorMessage, InputBox, SubmitButton, Subtitle, Title } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -50,6 +50,19 @@ const LoginPage = () => {
 
   return (
     <Wrapper>
+      <Col
+        style={{
+          position: "absolute",
+          top: "130px",
+          left: "70px",
+          gap: "10px",
+          alignItems: "flex-start",
+        }}
+      >
+        <h1 style={{ fontSize: "32px" }}>테스트 아이디</h1>
+        <div style={{ fontSize: "22px" }}>id : lifesemantics</div>
+        <div style={{ fontSize: "22px" }}>pw : life123!</div>
+      </Col>
       <Form as="form" onSubmit={handleSubmit(onValid)}>
         <Title>로그인</Title>
 

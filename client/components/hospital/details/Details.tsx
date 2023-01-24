@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import IconAddImage from "@/src/icon_addImage.png";
 import { useForm } from "react-hook-form";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { InputBox, Label, SubmitButton } from "@/styles/FormStyle";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,7 +24,7 @@ interface ReservationForm {
 const Details = () => {
   const user = useRecoilValue(userAtom);
   const selectedHospital = useRecoilValue(selectedHospitalAtom);
-  const selectedReservation = useRecoilValue(selectedReservationAtom);
+  const [selectedReservation, setSelectedReservation] = useRecoilState(selectedReservationAtom);
   const [imagePreview, setImagePreview] = useState("");
   const imageRef = useRef<HTMLInputElement | null>(null);
   const {
@@ -83,6 +83,7 @@ const Details = () => {
     });
   };
   const handleClickDelete = () => {
+    setSelectedReservation(null);
     deleteReservationMutate(selectedReservation?.id);
   };
 

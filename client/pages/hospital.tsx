@@ -1,18 +1,40 @@
+import { userAtom } from "@/atom";
 import Details from "@/components/hospital/details/Details";
 import Reservation from "@/components/hospital/reservation/Reservation";
 import Search from "@/components/hospital/search/Search";
+import { Col, FlexBox, Row } from "@/styles/Common";
+import { SubmitButton } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
 import { useQuery } from "@tanstack/react-query";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 const HospitalPage: NextPage = () => {
+  const user = useRecoilValue(userAtom);
   return (
     <HospitalWrapper>
-      <Search />
-      <Reservation />
-      <Details />
+      {user ? (
+        <>
+          <Search />
+          <Reservation />
+          <Details />
+        </>
+      ) : (
+        <Col>
+          <div style={{ fontSize: "32px", marginBottom: "20px" }}>로그인 후 이용해주세요.</div>
+          <Row style={{ gap: "20px" }}>
+            <Link href="/auth/login">
+              <SubmitButton>로그인</SubmitButton>
+            </Link>
+            <Link href="/auth/register">
+              <SubmitButton>회원가입</SubmitButton>
+            </Link>
+          </Row>
+        </Col>
+      )}
     </HospitalWrapper>
   );
 };
