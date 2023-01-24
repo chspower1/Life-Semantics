@@ -21,7 +21,7 @@ public class HospitalApplication {
 				registry
 				.addMapping("/**")
 				.allowedMethods("GET", "POST","PUT","DELETE")
-				.allowedOrigins("http://localhost:3000","http://34.64.157.168:3000");
+				.allowedOrigins("http://34.64.157.168:3000");
 			}
 		};
 	}
