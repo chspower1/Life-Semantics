@@ -1,4 +1,5 @@
 import { selectedHospitalAtom, selectedReservationAtom } from "@/atom";
+import { baseUrl } from "@/constant/baseUrl";
 import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Content";
 import { Reservation } from "@/types/reservation";
 import customApi from "@/utils/customApi";
@@ -6,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import { useRecoilState, useSetRecoilState } from "recoil";
 const Reservation = () => {
-  const { privateGetApi } = customApi(`http://${window.location.hostname}:8080/reservation`);
+  const { privateGetApi } = customApi(`${baseUrl}/reservation`);
   const { data: reservations, isLoading } = useQuery<Reservation[]>(
     ["reservationList"],
     privateGetApi

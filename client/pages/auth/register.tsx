@@ -20,12 +20,8 @@ interface RegisterForm {
 const RegisterPage = () => {
   const router = useRouter();
   const [isConfirmAccountId, setIsConfirmAccountId] = useState(false);
-  const { postApi: createUserApi } = customApi<RegisterForm>(
-    `http://${window.location.hostname}:8080/auth/register`
-  );
-  const { postApi: checkAccountIdApi } = customApi<String>(
-    "http://${window.location.hostname}:8080/auth/check-accountId"
-  );
+  const { postApi: createUserApi } = customApi<RegisterForm>(`${baseUrl}/auth/register`);
+  const { postApi: checkAccountIdApi } = customApi<String>(`${baseUrl}/auth/check-accountId`);
   const { mutate } = useMutation(["register"], createUserApi, {
     onSuccess(data) {
       if (data) {

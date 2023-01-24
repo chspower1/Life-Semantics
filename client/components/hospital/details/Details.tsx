@@ -12,6 +12,7 @@ import { InputBox, Label, SubmitButton } from "@/styles/FormStyle";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import customApi from "@/utils/customApi";
 import { getCurrentDate } from "@/utils/getCurrentDate";
+import { baseUrl } from "@/constant/baseUrl";
 
 interface ReservationForm {
   name: string;
@@ -41,9 +42,7 @@ const Details = () => {
   const { ref, ...rest } = register("imageUrl");
 
   const queryClient = useQueryClient();
-  const { deleteApi, postApi, putApi } = customApi(
-    `http://${window.location.hostname}:8080/reservation`
-  );
+  const { deleteApi, postApi, putApi } = customApi(`${baseUrl}/reservation`);
   const { mutate: createReservationMutate } = useMutation(["createReservation"], postApi);
   const { mutate: updateReservationMutate } = useMutation(["updateReservation"], putApi);
   const { mutate: deleteReservationMutate } = useMutation(["deleteReservation"], deleteApi);

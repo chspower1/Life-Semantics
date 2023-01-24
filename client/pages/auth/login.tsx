@@ -1,5 +1,6 @@
 import { userAtom } from "@/atom";
 import Input from "@/components/Input";
+import { baseUrl } from "@/constant/baseUrl";
 import { Col as Form, Wrapper } from "@/styles/Common";
 import { ErrorMessage, InputBox, SubmitButton, Subtitle, Title } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
@@ -24,9 +25,7 @@ interface ResponseLogin {
 const LoginPage = () => {
   const setUser = useSetRecoilState(userAtom);
   const router = useRouter();
-  const { postApi: loginApi } = customApi<LoginForm>(
-    `http://${window.location.hostname}:8080/auth/login`
-  );
+  const { postApi: loginApi } = customApi<LoginForm>(`${baseUrl}/auth/login`);
   const { mutate: loginMutate } = useMutation<ResponseLogin, AxiosError, LoginForm>(
     ["login"],
     loginApi,
