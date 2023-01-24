@@ -26,15 +26,21 @@ const Reservation = () => {
           ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => (
               <Skeleton width="500px" height="50px" key={index} />
             ))
-          : reservations?.map((reservation) => (
-              <Item
-                className={reservation.id === selectedReservation?.id ? "active" : "normal"}
-                key={reservation.id}
-                onClick={() => handleClickReservation(reservation)}
-              >
-                {reservation.hospitalName}
-              </Item>
-            ))}
+          : reservations
+              ?.sort((a, b) => {
+                if (a.date > b.date) return 1;
+                else if (a.date < b.date) return -1;
+                else return 0;
+              })
+              ?.map((reservation) => (
+                <Item
+                  className={reservation.id === selectedReservation?.id ? "active" : "normal"}
+                  key={reservation.id}
+                  onClick={() => handleClickReservation(reservation)}
+                >
+                  {reservation.hospitalName}
+                </Item>
+              ))}
       </ContentBox>
     </ContentContainer>
   );
