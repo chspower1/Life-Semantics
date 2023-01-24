@@ -43,7 +43,12 @@ const Details = () => {
 
   const queryClient = useQueryClient();
   const { deleteApi, postApi, putApi } = customApi(`${baseUrl}/reservation`);
-  const { mutate: createReservationMutate } = useMutation(["createReservation"], postApi);
+  const { mutate: createReservationMutate } = useMutation(["createReservation"], postApi, {
+    onSuccess(data) {
+      queryClient.invalidateQueries(["reservationList"]);
+      data || alert("같은병원은 같은날 예약할 수 없습니다!");
+    },
+  });
   const { mutate: updateReservationMutate } = useMutation(["updateReservation"], putApi);
   const { mutate: deleteReservationMutate } = useMutation(["deleteReservation"], deleteApi);
 
@@ -101,6 +106,7 @@ const Details = () => {
       reset();
     }
   }, [selectedReservation]);
+  console.log(getCurrentDate());
   return (
     <ContentContainer>
       <ContentTitle>상세정보</ContentTitle>
@@ -174,7 +180,7 @@ const Details = () => {
             register={register("date", {
               required: "날짜를 입력해주세요!",
             })}
-            min={getCurrentDate}
+            min={getCurrentDate()}
             errorMessage={errors.date?.message || null}
           />
 
