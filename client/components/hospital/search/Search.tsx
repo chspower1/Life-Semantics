@@ -2,7 +2,7 @@ import { selectedHospitalAtom, selectedReservationAtom } from "@/atom";
 import Input from "@/components/Input";
 import { FlexBox } from "@/styles/Common";
 import { SubmitButton } from "@/styles/FormStyle";
-import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Hospital";
+import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Content";
 import { Hospital } from "@/types/hospital";
 import customApi from "@/utils/customApi";
 import { useQuery } from "@tanstack/react-query";

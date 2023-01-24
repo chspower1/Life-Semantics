@@ -1,5 +1,5 @@
 import { selectedHospitalAtom, selectedReservationAtom } from "@/atom";
-import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Hospital";
+import { ContentBox, ContentTitle, ContentContainer, Item } from "@/styles/Content";
 import { Reservation } from "@/types/reservation";
 import customApi from "@/utils/customApi";
 import { useQuery } from "@tanstack/react-query";
