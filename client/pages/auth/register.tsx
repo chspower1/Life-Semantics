@@ -1,4 +1,5 @@
 import Input from "@/components/Input";
+import { baseUrl } from "@/constant/baseUrl";
 import { Col as Form, Wrapper } from "@/styles/Common";
 import { SubmitButton, Subtitle, Title } from "@/styles/FormStyle";
 import customApi from "@/utils/customApi";
